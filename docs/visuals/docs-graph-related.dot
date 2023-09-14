@@ -1,0 +1,176 @@
+graph G {
+    node [
+        fixedsize="false"
+        fontname="Tahoma"
+        color="white"
+        fillcolor="deepskyblue2"
+        fontcolor="black"
+        shape="box"
+        style="filled"
+    ]
+
+    edge [
+        fontname="Arial"
+        color="deepskyblue4"
+        fontcolor="black"
+        fontsize="12"
+    ]
+
+    rankdir=LR;
+
+    
+
+    "571-640Personal data handling management" -- "362-550Personal data handling";
+"464-513Assurance processes" -- "433-442Verification";
+"464-513Assurance processes" -- "745-356Development process audit trail";
+"240-464Contingency planning" -- "163-776Backup";
+"820-878Document all trust boundaries and significant data flows" -- "155-155Architecture";
+"586-842Secure user management" -- "724-770Technical application access control";
+"586-842Secure user management" -- "673-736Enable option to log out from all active session";
+"257-668Configure CSP configuration properly" -- "760-765XSS protection";
+"141-555Fail securely" -- "036-810Let cryptographic modules fail securely";
+"141-555Fail securely" -- "166-151Ensure that secure fail-safe is in place for access control";
+"342-055Set "samesite" attribute for cookie-based session tokens" -- "028-727CSRF protection";
+"464-084Add CSRF protection for cookie based REST services" -- "028-727CSRF protection";
+"261-010Program management for secure software development" -- "616-305Development processes for security";
+"286-500OS security" -- "330-281Use least privilege OS accounts for system (components)";
+"615-744Protect against directory browsing/discovery attacks" -- "486-813Configuration";
+"132-146Apply defense-in-depth techniques/processes for protection, detection, and timely response to network-based attacks." -- "623-550Denial Of Service protection";
+"132-146Apply defense-in-depth techniques/processes for protection, detection, and timely response to network-based attacks." -- "724-770Technical application access control";
+"732-148Vulnerability management" -- "463-577Incident response";
+"732-148Vulnerability management" -- "613-286Dependency management";
+"732-148Vulnerability management" -- "433-442Verification";
+"760-764Injection protection" -- "760-765XSS protection";
+"760-764Injection protection" -- "384-344Store and serve user-uploaded files such that they cannot execute/damage server or client";
+"760-764Injection protection" -- "010-308Input validation";
+"760-764Injection protection" -- "866-553Memory, String, and Unmanaged Code";
+"760-764Injection protection" -- "161-451Output encoding and injection prevention";
+"760-764Injection protection" -- "764-765Sanitization and sandboxing";
+"760-764Injection protection" -- "541-441Validate HTTP request headers";
+"760-764Injection protection" -- "764-507Restrict XML parsing (against XXE)";
+"760-764Injection protection" -- "048-612Encode user input before logging";
+"336-512Ensure integrity of DNS entries and domains" -- "058-527Secure name/address resolution service";
+"751-176Offer password changing functionality" -- "270-568Authentication mechanism";
+"605-735Authenticate all external connections" -- "170-772Cryptography";
+"551-054Use ephemeral secrets rather than static secrets" -- "270-568Authentication mechanism";
+"061-186Force uniform encoders and parsers throughout system" -- "028-727SSRF protection";
+"836-068Deserialization Prevention" -- "515-021Sandbox, containerize and/or isolate applications at the network level";
+"836-068Deserialization Prevention" -- "184-284Log all security relevant events";
+"503-455Input and output protection" -- "782-234Clear policy compliant I/O requirements";
+"333-858Resist stolen credentials" -- "170-772Cryptography";
+"764-507Restrict XML parsing (against XXE)" -- "486-813Configuration";
+"004-517Security requirements" -- "433-442Verification";
+"004-517Security requirements" -- "510-324Compliance";
+"004-517Security requirements" -- "074-873Data classification and handling";
+"004-517Security requirements" -- "072-713Manage standard technologies and frameworks";
+"004-517Security requirements" -- "787-638Technical instructions";
+"430-636Verify TLS certificates and trust chain" -- "486-813Configuration";
+"704-530Enforce high entropy session tokens" -- "170-772Cryptography";
+"163-518Check uploaded archives for decompression attacks (eg zip bombs)" -- "623-550Denial Of Service protection";
+"760-765XSS protection" -- "384-344Store and serve user-uploaded files such that they cannot execute/damage server or client";
+"760-765XSS protection" -- "010-308Input validation";
+"760-765XSS protection" -- "161-451Output encoding and injection prevention";
+"760-765XSS protection" -- "764-765Sanitization and sandboxing";
+"760-765XSS protection" -- "804-220Set httponly attribute for cookie-based session tokens";
+"138-448Inform users for authentication renewal" -- "270-568Authentication mechanism";
+"307-507Allow only trusted sources both build time and runtime; therefore perform integrity checks on all resources and code" -- "613-285Supply chain management";
+"201-246Use multifactor authentication on administrative interfaces" -- "062-850MFA/OTP";
+"527-034Protect communication between application components" -- "170-772Cryptography";
+"456-535Monitor for realistic "human time" business logic flows" -- "623-550Denial Of Service protection";
+"424-242Decommissioning" -- "613-285Supply chain management";
+"657-084(SSRF) When depending on internal server input, use validation sanitization and whitelisting" -- "028-727SSRF protection";
+"623-550Denial Of Service protection" -- "630-573Detect and protect against automation abuse";
+"623-550Denial Of Service protection" -- "463-820Limit size and number of uploaded files";
+"623-550Denial Of Service protection" -- "660-052Validate max input/file sizes";
+"623-550Denial Of Service protection" -- "176-154Monitor expectation of usage intensity (e.g. number of requests)";
+"623-550Denial Of Service protection" -- "268-088Limit query impact GraphQL/data layer expression DoS";
+"623-550Denial Of Service protection" -- "854-643Robust business logic";
+"623-550Denial Of Service protection" -- "725-682Enable configurable alert against usage anomalies";
+"623-550Denial Of Service protection" -- "418-853Monitor unusual activities on system";
+"623-550Denial Of Service protection" -- "267-031Protect the availability of resources by providing more to higher-priority processes";
+"842-876Logging and error handling" -- "058-083Monitoring";
+"842-876Logging and error handling" -- "725-682Enable configurable alert against usage anomalies";
+"842-876Logging and error handling" -- "668-364Log TLS connection failures";
+"270-568Authentication mechanism" -- "327-505Change password with presence of old and new password";
+"270-568Authentication mechanism" -- "808-425Notify users about anomalies in their usage patterns";
+"270-568Authentication mechanism" -- "177-260Session management";
+"157-587Equipment management" -- "287-823Asset management";
+"613-285Supply chain management" -- "307-242Security risk assessment";
+"613-285Supply chain management" -- "433-442Verification";
+"248-646Disable insecure SSL/TLS versions" -- "170-772Cryptography";
+"113-133Use centralized authentication mechanism" -- "155-155Architecture";
+"113-133Use centralized authentication mechanism" -- "402-706Log relevant";
+"558-807Mutually authenticate application and credential service provider" -- "228-551TLS";
+"223-780Secret storage" -- "473-177Deploy/build";
+"223-780Secret storage" -- "170-772Cryptography";
+"223-780Secret storage" -- "633-428Authentication";
+"223-780Secret storage" -- "287-305Document explicit key/secret management";
+"862-452Operating processes for security" -- "473-177Deploy/build";
+"862-452Operating processes for security" -- "148-853Setup and maintain a secure software development process";
+"058-083Monitoring" -- "176-154Monitor expectation of usage intensity (e.g. number of requests)";
+"058-083Monitoring" -- "418-853Monitor unusual activities on system";
+"640-364Enforce access control on trusted parts/serverside" -- "155-155Architecture";
+"473-758Set sufficient anti-caching headers" -- "636-347HTTP security headers";
+"110-531Cookie-config" -- "636-347HTTP security headers";
+"542-270Secure random values" -- "170-772Cryptography";
+"036-147Configure HSTS configuration properly" -- "278-646Secure communication";
+"117-371Use a centralized access control mechanism" -- "155-155Architecture";
+"447-083Privacy-preserving personal data logic" -- "362-550Personal data handling";
+"287-823Asset management" -- "522-616Media protection";
+"326-704Architecture/design processes" -- "155-155Architecture";
+"326-704Architecture/design processes" -- "708-355Secure implemented architecture";
+"843-841Log discretely" -- "015-063Log access to sensitive data";
+"727-043Ensure secure algorithms for generating session tokens" -- "170-772Cryptography";
+"742-056Ignore/at least validate  filename metadata from untrusted origin (remote file context, eg RFI)" -- "028-727SSRF protection";
+"148-853Setup and maintain a secure software development process" -- "616-305Development processes for security";
+"118-775Manage an internal secure software development community" -- "013-021Roles and responsibilities";
+"074-873Data classification and handling" -- "724-770Technical application access control";
+"456-636Add integrity check to SOAP payload" -- "278-646Secure communication";
+"278-413Mutually authenticate application components. Minimize privileges" -- "155-155Architecture";
+"278-413Mutually authenticate application components. Minimize privileges" -- "724-770Technical application access control";
+"308-515Prevent security disclosure" -- "486-813Configuration";
+"850-376Facilities management" -- "233-748Configuration hardening";
+"307-242Security risk assessment" -- "068-102Describe high-level system architecture and perform threat modeling on it every critical change and regularly";
+"307-242Security risk assessment" -- "660-867Implement business logic limits against identified business risks";
+"841-757Use approved cryptographic algorithms in generation, seeding and verification of OTPs" -- "170-772Cryptography";
+"233-748Configuration hardening" -- "486-813Configuration";
+"233-748Configuration hardening" -- "473-177Deploy/build";
+"467-784Network security" -- "278-646Secure communication";
+"708-355Secure implemented architecture" -- "155-155Architecture";
+"007-274Patching and updating system components" -- "613-286Dependency management";
+"612-252Separate GraphQL (or similar) authorization logic from data layer" -- "155-155Architecture";
+"112-648Change management" -- "124-564Configuration Management";
+"551-400Allow user revocation of Oauth tokens" -- "724-770Technical application access control";
+"333-888Do not expose data through API URLs" -- "486-813Configuration";
+"124-564Configuration Management" -- "486-813Configuration";
+"278-646Secure communication" -- "270-634Send authentication secrets encrypted";
+"170-772Cryptography" -- "228-551TLS";
+"170-772Cryptography" -- "585-408Challenge nonce cryptography";
+"170-772Cryptography" -- "062-850MFA/OTP";
+"170-772Cryptography" -- "206-254Use secure random to generate initial authentication codes";
+"170-772Cryptography" -- "543-428Use security module to store one-time password verification keys";
+"170-772Cryptography" -- "435-702Communication encryption";
+"170-772Cryptography" -- "426-842Verify the authenticity of both headers and payload";
+"170-772Cryptography" -- "400-007Encrypt data at rest";
+"170-772Cryptography" -- "742-432Encryption algorithms";
+"170-772Cryptography" -- "664-571Ensure proper generation of secure random";
+"270-634Send authentication secrets encrypted" -- "062-850MFA/OTP";
+"344-611Use centralized reusable security controls" -- "155-155Architecture";
+"344-611Use centralized reusable security controls" -- "417-342Provide reusable application security controls";
+"462-245Remove unnecessary elements from external components (e.g. features, documentation, configuration)" -- "486-813Configuration";
+"028-727CSRF protection" -- "060-472Use CSRF protection against authenticated functionality, add anti-automation controls for unauthenticated functionality";
+"724-770Technical application access control" -- "247-250Access control processes";
+"724-770Technical application access control" -- "273-600Segregate components of differing trust levels";
+"724-770Technical application access control" -- "538-770Data access control";
+"244-750Technical application security training" -- "428-544Security awareness training";
+"848-711Enforce input validation on a trusted service layer" -- "155-155Architecture";
+"515-021Sandbox, containerize and/or isolate applications at the network level" -- "155-155Architecture";
+"186-540Do not expose data through HTTP verb" -- "486-813Configuration";
+"235-658Notify user about credential change" -- "520-617Credential recovery";
+"650-560Enforce access control on trusted service layer" -- "155-155Architecture";
+"362-550Personal data handling" -- "482-866Encrypt personal data at rest";
+"154-031Harden application by excluding unwanted functionality" -- "486-813Configuration";
+"247-250Access control processes" -- "013-021Roles and responsibilities";
+"814-322Whitelist data sources and sinks" -- "028-727SSRF protection";
+
+}

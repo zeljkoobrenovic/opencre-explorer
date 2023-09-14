@@ -14,7 +14,7 @@ for doc in data:
         for link in doc['links']:
             if link.get('document'):
                 if link.get('ltype'):
-                    if link['ltype'] == 'Contains' or link['ltype'] == 'Related':
+                    if link['ltype'] == 'Related':
                         doc_node = '';
                         if (doc.get('id')): doc_node += doc['id']
                         doc_node += doc['name']
@@ -39,13 +39,13 @@ for doc in data:
                         elif links_map.get(link_id_2):
                             links_map[link_id_2]['count'] += 1
 
-with open('docs/visuals/docs-graph-all.dot', 'w') as html_file:
+with open('docs/visuals/docs-graph-related.dot', 'w') as html_file:
     template = open('templates/visuals/graphviz.dot').read();
     html_file.write(template
                     .replace('${nodes}', '')
                     .replace('${links}', links_text))
 
-with open('docs/visuals/force-graph-3d-all.html', 'w') as html_file:
+with open('docs/visuals/force-graph-3d-related.html', 'w') as html_file:
     template = open('templates/visuals/force-graph-3d-cres.html').read();
     html_file.write(template
                     .replace('${links}', json.dumps(links)))
