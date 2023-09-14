@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Searchable Page</title>
+    <style>
+        body {
+            font-family: Vollkorn, Ubuntu, Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;
+        }
+
+        .group {
+            border-top: 1px solid lightgrey;
+            border-left: 5px solid lightgrey;
+            margin: 4px;
+            margin-left: 12px;
+            padding: 5px;
+            vertical-align: top;
+            background-color: rgba(200, 200, 200, 0.2);
+            display: inline-block;
+        }
+
+        .doc-id {
+            display: inline-block;
+            border-radius: 6px;
+            margin: 3px;
+            padding: 3px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            font-size: 90%;
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        body {
+            margin: 40px;
+            text-align: left;
+        }
+
+        ::placeholder {
+            color: lightgrey;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        ::-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        div {
+            vertical-align: top;
+        }
+    </style>
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Lato">
+</head>
+<body>
+
+<div style="margin-left: 24px; margin-top: 20px; margin-bottom: 20px; color: grey">
+    <div>
+        <input id="filter" type="text" placeholder="search..."
+               style="font-size: 16px; height: 32px; width: 320px; margin-bottom: 10px"
+               onkeyup="update()">
+        <div id="search-summary" style="display: inline-block; vertical-align: middle"></div>
+    </div>
+</div>
+
+<div id="content" style="margin-left: -20px"></div>
+
+<script>
+    const data = ${data}.sort((a, b) => (a.id + '').localeCompare(b.id + ''));
+
+    function getById(id) {
+        return data.filter(i => i.id === id)[0];
+    }
+
+
+    function populateChildren(id) {
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        let cre = getById(id);
+        if (cre) {
+            cre.links.filter(link => link.ltype === 'Contains').forEach(link => {
+                let child = getById(link.document.id);
+                populateChildren(link.document.id);
+                if (child.children.length > 0 || child.name.toLowerCase().includes(filter)) {
+                    cre.children.push(child);
+                }
+            });
+        }
+
+        return cre;
+    }
+
+
+    function processNode(item) {
+        let html = '';
+        html += '<div class="group" style="overflow: hidden;">';
+        html += '<div style="vertical-align: middle; font-size: 120%; font-weight: bold; margin-left: 5px; overflow: hidden;">';
+        html += '<div style="vertical-align: middle; width: 300px; overflow: hidden; display: inline-block; margin-right: 30px">';
+        html += '<a target="_blank" href="https://opencre.org/cre/' + item.id + '">';
+        // html += '<span style="color: grey">' + item.id + ': </span>';
+        html += item.name;
+        html += '</a>';
+        html += '</div>';
+
+        html += '</div>';
+        html += '<div style="font-size: 90%">';
+        item.children.forEach(child => html += processNode(child));
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function update() {
+        data.forEach(item => {
+            item.children = [];
+        });
+
+        let rootNodes = [
+            getById('546-564'),
+            getById('567-755'),
+            getById('616-305'),
+            getById('636-660'),
+            getById('862-452'),
+        ]
+        rootNodes.forEach(node => populateChildren(node.id));
+
+        rootNodes = rootNodes.filter(r => r.children.length);
+
+        let html = '';
+
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        const filteredData = data.filter(item => item.name.toLowerCase().includes(filter));
+        document.getElementById('search-summary').innerHTML = '&nbsp;&nbsp;=&nbsp;&nbsp;' + filteredData.length + ' ' + (filteredData.length === 1 ? 'item' : 'items');
+
+        rootNodes.forEach(item => {
+            html += processNode(item);
+        });
+
+        document.getElementById('content').innerHTML = html;
+    }
+
+    update();
+</script>
+</body>
+</html>

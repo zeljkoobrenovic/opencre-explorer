@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Searchable Page</title>
+    <style>
+        body {
+            font-family: Vollkorn, Ubuntu, Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;
+        }
+
+        .group {
+            border-top: 1px dotted lightgrey;
+            border-left: 6px solid lightgrey;
+            margin: 4px;
+            margin-left: 46px;
+            padding: 5px;
+            vertical-align: top;
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+
+        .doc-id {
+            display: inline-block;
+            border-radius: 6px;
+            margin: 3px;
+            padding: 3px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            font-size: 90%;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid lightgrey;
+            border-radius: 6px;
+            margin: 3px;
+            padding: 3px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            font-size: 90%;
+            max-width: 80px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .icon {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 26px;
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+        }
+
+        body {
+            margin: 40px;
+            text-align: left;
+        }
+
+        ::placeholder {
+            color: lightgrey;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        ::-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        div {
+            vertical-align: top;
+        }
+    </style>
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Lato">
+</head>
+<body>
+
+<div style="margin-left: 24px; margin-top: 20px; margin-bottom: 20px; color: grey">
+    <div>
+        <input id="filter" type="text" placeholder="search..."
+               style="font-size: 16px; height: 32px; width: 320px; margin-bottom: 10px"
+               onkeyup="update()">
+        <div id="search-summary" style="display: inline-block; vertical-align: middle"></div>
+    </div>
+</div>
+
+<div id="content" style="margin-left: -20px"></div>
+
+<script>
+    const data = ${data}.sort((a, b) => (a.id + '').localeCompare(b.id + ''));
+
+    function getById(id) {
+        return data.filter(i => i.id === id)[0];
+    }
+
+
+    function populateChildren(id, parentIn) {
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        let cre = getById(id);
+        if (cre) {
+            cre.links.filter(link => link.ltype === 'Contains').forEach(link => {
+                let child = getById(link.document.id);
+                populateChildren(link.document.id, parentIn || cre.name.toLowerCase().includes(filter));
+                if (child.children.length > 0 || child.name.toLowerCase().includes(filter) || parentIn) {
+                    cre.children.push(child);
+                }
+            });
+        }
+
+        return cre;
+    }
+
+
+    function processNode(item) {
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        let html = '';
+        html += '<div class="group" style="overflow: hidden; white-space: nowrap;">';
+        html += '<div style="vertical-align: middle; font-size: 120%; font-weight: bold; margin-left: 5px; overflow: hidden; white-space: nowrap;">';
+        html += '<div style="vertical-align: middle; width: 500px; overflow: hidden; white-space: nowrap; display: inline-block; margin-right: 30px">';
+        html += '<a target="_blank" href="https://opencre.org/cre/' + item.id + '">';
+        html += '<span style="color: grey">' + item.id + ': </span>';
+        let name = item.name;
+        if (filter.length) {
+            name = name.replace(new RegExp(filter.toLowerCase()), '<span style="background-color: yellow">' + filter.toLowerCase() + '</span>')
+            name = name.replace(new RegExp(filter.toUpperCase()), '<span style="background-color: yellow">' + filter.toUpperCase() + '</span>')
+            let cap = filter.charAt(0).toUpperCase() + filter.slice(1);
+            name = name.replace(new RegExp(cap), '<span style="background-color: yellow">' + cap + '</span>')
+        }
+        html += name;
+        html += '</a>';
+        html += '</div>';
+        const groupedLinks = [];
+        const groupedLinksMap = [];
+        item.links.filter(link => link.ltype === 'Linked To').forEach(link => {
+            const doc = link.ltype + ' ' + link.document.doctype + ' ' + link.document.name;
+            if (!groupedLinksMap[doc]) {
+                groupedLinksMap[doc] = link;
+                groupedLinks.push(link);
+                link.sections = [];
+            }
+            if (link.document.section) {
+                groupedLinksMap[doc].sections.push(link.document.section);
+            }
+        });
+        html += '<div style="margin-left: 6px; font-size: 80%; display: inline-block; vertical-align: middle">';
+        groupedLinks.forEach(link => {
+            html += '<div style="margin: 2px; display: inline-block; border: 1px dashed lightgrey; padding: 3px; background-color: #f0f0f0;">';
+            if (link.document.hyperlink) {
+                let title = link.document.name;
+                if (link.sections.length > 0) {
+                    title += ':\n - ';
+                    title += link.sections.join('\n - ');
+                }
+
+                html += '<a target="_blank" href="' + link.document.hyperlink + '" title="' + title + '">';
+            }
+            html += link.document.name;
+            if (link.sections.length > 1) {
+                html += ' (' + link.sections.length + ')';
+            }
+            if (link.document.hyperlink) {
+                html += '</a>';
+            }
+            html += '</div>';
+        });
+        html += '</div>';
+
+        html += '</div>';
+        html += '<div style="font-size: 92%">';
+        item.children.forEach(child => html += processNode(child));
+        html += '</div>';
+        html += '</div>';
+        return html;
+    }
+
+    function update() {
+        data.forEach(item => {
+            item.children = [];
+        });
+
+        let rootNodes = [
+            getById('546-564'),
+            getById('567-755'),
+            getById('616-305'),
+            getById('636-660'),
+            getById('862-452'),
+        ]
+        rootNodes.forEach(node => populateChildren(node.id, false));
+
+        rootNodes = rootNodes.filter(r => r.children.length);
+
+        let html = '';
+
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        const filteredData = data.filter(item => item.name.toLowerCase().includes(filter));
+        document.getElementById('search-summary').innerHTML = '&nbsp;&nbsp;=&nbsp;&nbsp;' + filteredData.length + ' ' + (filteredData.length === 1 ? 'item' : 'items');
+
+        rootNodes.forEach(item => {
+            html += processNode(item);
+        });
+
+        document.getElementById('content').innerHTML = html;
+    }
+
+    update();
+</script>
+</body>
+</html>

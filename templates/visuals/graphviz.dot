@@ -1,0 +1,24 @@
+graph G {
+    node [
+        fixedsize="false"
+        fontname="Tahoma"
+        color="white"
+        fillcolor="deepskyblue2"
+        fontcolor="black"
+        shape="box"
+        style="filled"
+    ]
+
+    edge [
+        fontname="Arial"
+        color="deepskyblue4"
+        fontcolor="black"
+        fontsize="12"
+    ]
+
+    rankdir=LR;
+
+    ${nodes}
+
+    ${links}
+}

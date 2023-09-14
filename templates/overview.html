@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Searchable Page</title>
+    <style>
+        body {
+            font-family: Vollkorn, Ubuntu, Optima, Segoe, Segoe UI, Candara, Calibri, Arial, sans-serif;
+        }
+
+        .group {
+            display: inline-block;
+            border: 1px solid lightgrey;
+            border-radius: 6px;
+            margin: 8px 18px 8px 8px;
+            padding: 5px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            width: 300px;
+        }
+
+        .doc-id {
+            display: inline-block;
+            border-radius: 6px;
+            margin: 3px;
+            padding: 3px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            font-size: 90%;
+        }
+
+        .tag {
+            display: inline-block;
+            border: 1px solid lightgrey;
+            border-radius: 6px;
+            margin: 3px;
+            padding: 3px;
+            background-color: #f8f8f8;
+            vertical-align: top;
+            font-size: 90%;
+            max-width: 80px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .icon {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 26px;
+            margin-bottom: 20px;
+            filter: grayscale(100%);
+        }
+
+        body {
+            margin: 40px;
+            text-align: left;
+        }
+
+        ::placeholder {
+            color: lightgrey;
+            opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        ::-ms-input-placeholder {
+            color: lightgrey;
+        }
+
+        div {
+            vertical-align: top;
+        }
+    </style>
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" target="_blank" href="https://fonts.googleapis.com/css?family=Lato">
+</head>
+<body>
+
+<div style="margin-left: 0px; margin-top: 20px; margin-bottom: 20px; color: grey">
+    <div>
+        <input id="filter" type="text" placeholder="search..."
+               style="font-size: 16px; height: 32px; width: 320px; margin-bottom: 10px"
+               onkeyup="update()">
+        <div id="search-summary" style="display: inline-block; vertical-align: middle"></div>
+    </div>
+</div>
+
+<div id="content"></div>
+
+<script>
+    const data = ${data}.sort((a, b) => (a.id + '').localeCompare(b.id + ''));
+
+    function update() {
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+        let html = '';
+
+        const filteredData = data.filter(item => !filter || (item.id + ' ' + item.name).toLowerCase().includes(filter))
+        document.getElementById('search-summary').innerHTML = '&nbsp;&nbsp;=&nbsp;&nbsp;' + filteredData.length + ' ' + (filteredData.length === 1 ? 'item' : 'items');
+
+        filteredData.forEach(item => {
+            html += '<div class="group">';
+            html += '<div style="font-size: 90%; color: grey">';
+            html += '<div class="doc-id">';
+            html += item.doctype + ' ' + item.id;
+            html += '</div>';
+            if (item.tags) {
+                item.tags.forEach(tag => {
+                    html += '<div class="tag" title="' + tag + '">';
+                    html += tag;
+                    html += '</div>';
+                });
+            }
+            html += '</div>';
+            html += '<div style="font-size: 110%; font-weight: bold; margin-left: 5px">';
+            html += item.name;
+            html += '</div>';
+            html += '<div style="font-size: 80%">';
+            html += '<ul>';
+            const groupedLinks = [];
+            const groupedLinksMap = [];
+            item.links.forEach(link => {
+                const doc = link.ltype + ' ' + link.document.doctype + ' ' + link.document.name;
+                if (!groupedLinksMap[doc]) {
+                    groupedLinksMap[doc] = link;
+                    groupedLinks.push(link);
+                    link.sections = [];
+                }
+                if (link.document.section) {
+                    groupedLinksMap[doc].sections.push(link.document.section);
+                }
+            });
+            groupedLinks.forEach(link => {
+                html += '<li>';
+                if (link.document.hyperlink) {
+                    html += '<a target="_blank" href="' + link.document.hyperlink + '">';
+                }
+                html += link.ltype + ' ' + link.document.doctype + ' ' + link.document.name;
+                if (link.document.hyperlink) {
+                    html += '</a>';
+                }
+                html += '</li>';
+                if (link.sections) {
+                    html += '<ul>';
+                    link.sections.forEach(section => {
+                        html += '<li>';
+                        html += section;
+                        html += '</li>';
+                    });
+                    html += '</ul>';
+                }
+            });
+            html += '</ul>';
+            html += '</div>';
+            html += '</div>';
+        });
+
+        document.getElementById('content').innerHTML = html;
+    }
+
+    update();
+</script>
+</body>
+</html>
