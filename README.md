@@ -1,1 +1,1 @@
-A visual explorer of the [OpenCRE](https://opencre.org) data.
+A visual explorer of the [OpenCRE](https://opencre.org) data. OpenCRE is a content linking platform for uniting security standards and guidelines into one overview.
