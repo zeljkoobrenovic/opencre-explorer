@@ -128,20 +128,48 @@
     }
 
 
-    function populateChildren(id, parentIn) {
+    function containsFilter(id) {
+        const filter = document.getElementById('filter').value.toLowerCase().trim();
+
+        if (!filter) {
+            return true;
+        }
+
+        let cre = getById(id);
+
+        let found = false;
+
+        if (cre) {
+            if (cre.name.toLowerCase().includes(filter)) {
+                return true;
+            } else {
+                cre.links.filter(link => link.ltype === 'Contains').forEach(link => {
+                    if (containsFilter(link.document.id)) {
+                        found = true;
+                        return;
+                    }
+                });
+            }
+        }
+
+        return found;
+    }
+
+    function populateChildren(id, parentIncluded) {
         const filter = document.getElementById('filter').value.toLowerCase().trim();
         let cre = getById(id);
         if (cre) {
             cre.links.filter(link => link.ltype === 'Contains').forEach(link => {
                 let child = getById(link.document.id);
-                populateChildren(link.document.id, parentIn || cre.name.toLowerCase().includes(filter));
-                if (child.children.length > 0 || child.name.toLowerCase().includes(filter) || parentIn) {
+                let directHit = cre.name.toLowerCase().includes(filter);
+                if (directHit || parentIncluded || containsFilter(link.document.id)) {
                     cre.children.push(child);
+                    populateChildren(link.document.id, parentIncluded || directHit);
                 }
             });
         }
 
-        return cre;
+        return null;
     }
 
 
@@ -220,6 +248,8 @@
             getById('862-452'),
         ]
         rootNodes.forEach(node => populateChildren(node.id, false));
+
+        console.log(rootNodes);
 
         rootNodes = rootNodes.filter(r => r.children.length);
 

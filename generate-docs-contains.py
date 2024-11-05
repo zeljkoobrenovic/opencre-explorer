@@ -1,7 +1,7 @@
 import json
 import datetime
 
-data = json.load(open('data/cres.json'))
+data = json.load(open('data/all_cres.json'))['data']
 source_link = 'https://github.com/OWASP/OpenCRE'
 dateString = datetime.date.today().strftime('%Y-%m-%d')
 
